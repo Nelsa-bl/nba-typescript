@@ -29,7 +29,14 @@ const GamesList = ({ games }: GamesListProps) => {
           }) => (
             <div key={id} className='game-list-box'>
               <div className='game-overview'>
-                <Link to={`/game/${id}`}>
+                <Link
+                  to={`/game/${id}`}
+                  onClick={(e) => {
+                    if (!home_team_score && !visitor_team_score) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
                   <div className='team-home'>
                     <div
                       className={`team-logo team-logo-${home_team.name}`}
