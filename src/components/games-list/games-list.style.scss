@@ -1,0 +1,194 @@
+@import '../../styles/mixins';
+
+.game-overview {
+  border: 1px solid #fff;
+  width: 600px;
+  margin: auto;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.55);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+
+    .team-name {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .team-score {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .at {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  a {
+    text-decoration: none;
+    display: flex;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .team-home {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    .team-score {
+      float: right;
+      margin-right: -30px;
+    }
+    .team-logo {
+      margin-right: 10px;
+    }
+  }
+  .team-visitor {
+    display: inline-block;
+    text-align: right;
+    width: 100%;
+    .team-score {
+      float: left;
+      margin-left: -30px;
+    }
+    .team-logo {
+      margin-left: 10px;
+    }
+  }
+  .team-logo {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    margin-top: -10px;
+    top: 9px;
+    position: relative;
+  }
+
+  .team-name {
+    color: rgba(0, 0, 0, 0.9);
+    font-family: 'Outfit', sans-serif;
+  }
+  .team-score {
+    color: rgba(0, 0, 0, 0.9);
+    position: relative;
+    top: 4px;
+  }
+  .at {
+    text-align: center;
+    color: #000;
+    width: 40%;
+    position: relative;
+    top: 4px;
+  }
+
+  @include device-size(mobile) {
+    width: 100%;
+
+    a {
+      display: block;
+    }
+
+    .team-home {
+      display: flex;
+      text-align: left;
+      width: 100%;
+      position: relative;
+      margin-bottom: 5px;
+    }
+
+    .team-visitor {
+      display: flex;
+      text-align: right;
+      width: 100%;
+      position: relative;
+
+      .team-logo {
+        position: absolute;
+        left: 0;
+        margin-left: 0;
+      }
+    }
+
+    .team-home,
+    .team-visitor {
+      .team-score {
+        font-size: 14px;
+        margin-right: 0;
+        margin-left: 0;
+      }
+      .team-logo {
+        width: 25px;
+        height: 25px;
+      }
+    }
+
+    .team-home {
+      .team-score {
+        text-align: right;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    .team-visitor {
+      .team-score {
+        text-align: right;
+        position: absolute;
+        right: 0;
+        margin-top: -1px;
+      }
+      .team-name {
+        padding-left: 36px;
+        position: relative;
+        top: 2px;
+      }
+    }
+
+    .team-name {
+      font-size: 14px;
+      display: block;
+      text-align: center;
+    }
+
+    .at {
+      display: none;
+    }
+  }
+
+  @include device-size(tablet) {
+    width: 100%;
+
+    .team-home,
+    .team-visitor {
+      .team-score {
+        font-size: 16px;
+      }
+      .team-logo {
+        width: 25px;
+        height: 25px;
+      }
+    }
+
+    .team-name {
+      font-size: 16px;
+    }
+
+    .at {
+      font-size: 16px;
+    }
+  }
+}
+
+.game-date {
+  text-align: center;
+  display: block;
+  margin-bottom: 5px;
+  text-decoration: overline;
+  font-style: oblique;
+  font-size: 14px;
+  color: #fff;
+  text-shadow: 1px 1px 6px #000;
+}

@@ -1,0 +1,174 @@
+@import '../../styles/mixins';
+
+.list-player-stats {
+  width: 100%;
+}
+
+.list-player-stats {
+  position: relative;
+  z-index: 2;
+  .list {
+    color: #fff;
+    margin-bottom: 5px;
+
+    @include device-size(mobile) {
+      display: flex;
+    }
+    .min {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 15px;
+      width: 62px;
+      display: inline-flex;
+
+      @include device-size(mobile) {
+        width: 20px;
+        font-size: 9px;
+      }
+    }
+    .player {
+      width: 200px;
+      display: inline-flex;
+
+      @include device-size(mobile) {
+        width: 95px;
+
+        font-size: 9px;
+      }
+    }
+    .ast {
+      width: 40px;
+      display: inline-flex;
+      justify-content: center;
+      @include device-size(mobile) {
+        width: 20px;
+        font-size: 9px;
+      }
+    }
+    .reb {
+      width: 40px;
+      display: inline-flex;
+      justify-content: center;
+      @include device-size(mobile) {
+        width: 20px;
+        font-size: 9px;
+      }
+    }
+    .points {
+      width: 40px;
+      display: inline-flex;
+      justify-content: center;
+      @include device-size(mobile) {
+        width: 20px;
+        font-size: 9px;
+      }
+    }
+  }
+
+  .list-placeholder {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 100;
+  }
+}
+
+.home-team {
+  &::before {
+    content: '';
+    // background-color: rgba(35,97,146,0.75);
+    width: calc(50% + 24px);
+    height: 100%;
+    position: absolute;
+    left: -24px;
+    top: 0;
+    top: -100px;
+    height: 1000vh;
+  }
+  .teamInfo {
+    justify-content: flex-end;
+    padding-right: 10px;
+  }
+  .list-player-stats {
+    width: 450px;
+    float: right;
+    padding-right: 20px;
+
+    @include device-size(mobile) {
+      width: 150px;
+      padding-right: 10px;
+      float: none;
+    }
+  }
+  .logo-float {
+    position: fixed;
+    bottom: 20px;
+    width: 300px;
+    height: 300px;
+    left: 30px;
+    z-index: 0;
+    opacity: 0.1;
+  }
+}
+
+.visitor-team {
+  &::before {
+    content: '';
+    // background-color: rgba(135,0,56,0.75);
+    width: calc(50% + 24px);
+    height: 100%;
+    position: absolute;
+    right: -24px;
+    top: 0;
+    top: -100px;
+    height: 1000vh;
+  }
+  .teamInfo {
+    justify-content: flex-start;
+    padding-left: 10px;
+
+    span {
+      margin-left: 0;
+    }
+    h2 {
+      text-align: right;
+      padding-right: 15px;
+    }
+  }
+  .list-player-stats {
+    width: 450px;
+    float: left;
+    padding-left: 20px;
+
+    @include device-size(mobile) {
+      width: 150px;
+      margin-right: -10px;
+      float: none;
+      padding-left: 0;
+    }
+  }
+  .logo-float {
+    position: fixed;
+    bottom: 20px;
+    width: 300px;
+    height: 300px;
+    right: 30px;
+    z-index: 0;
+    opacity: 0.1;
+  }
+  .list {
+    display: flex;
+    flex-direction: row-reverse;
+    .min {
+      width: 30px;
+    }
+    .ast {
+      margin-right: 40px;
+      @include device-size(mobile) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.no-play-player {
+  opacity: 0.5;
+}
