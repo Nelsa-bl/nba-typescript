@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import moment from 'moment';
 
 // Import components
@@ -13,7 +13,8 @@ import { GameTypes } from '../../@types/games';
 import './results.style.scss';
 
 type Games = {
-  games: GameTypes[];
+  todaysGames: GameTypes[];
+  yesterdaysGames: GameTypes[];
 };
 
 // Get todays date
@@ -24,18 +25,25 @@ const yesterdaysDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
 const Results = () => {
   const [todaysGames, setTodaysGames] = useState<GameTypes[]>([]);
   const [yesterdaysGames, setYesterdaysGames] = useState<GameTypes[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getGames = async () => {
-    setIsLoading(true);
+  const memoizedGetGameScores = useMemo(async () => {
+    const storedData = sessionStorage.getItem('gameScores');
+    if (storedData) {
+      return JSON.parse(storedData);
+    }
+
     try {
       const [todayData, yesterdayData] = await Promise.all([
         getGameScores(todaysDate),
         getGameScores(yesterdaysDate),
       ]);
-      setTodaysGames(todayData || []);
-      setYesterdaysGames(yesterdayData || []);
-      setIsLoading(false);
+      const data = {
+        todaysGames: todayData || [],
+        yesterdaysGames: yesterdayData || [],
+      };
+      sessionStorage.setItem('gameScores', JSON.stringify(data));
+      return data;
     } catch (err) {
       // If error then show message
       let message;
@@ -43,27 +51,29 @@ const Results = () => {
       else message = String(err);
       // we'll proceed, but let's report it
       reportError({ message });
+      return { todaysGames: [], yesterdaysGames: [] };
     }
-  };
+  }, [todaysDate, yesterdaysDate]);
 
   // Get Games
   useEffect(() => {
-    getGames();
-  }, []);
+    memoizedGetGameScores.then(({ todaysGames, yesterdaysGames }: Games) => {
+      setTodaysGames(todaysGames);
+      setYesterdaysGames(yesterdaysGames);
+      setIsLoading(false);
+    });
+  }, [memoizedGetGameScores]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <>
-          {' '}
-          <h5>Latest games</h5>
-          <GamesList games={yesterdaysGames} />
-          <h5>Upcoming games</h5>
-          <GamesList games={todaysGames} />
-        </>
-      )}
+      <h5>Latest games</h5>
+      <GamesList games={yesterdaysGames} />
+      <h5>Upcoming games</h5>
+      <GamesList games={todaysGames} />
     </>
   );
 };

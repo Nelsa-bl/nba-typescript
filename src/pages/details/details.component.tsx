@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Import components
@@ -23,10 +23,31 @@ const Details = () => {
 
   const { id } = useParams<Params>();
 
+  const memoizedGetGameStats = useMemo(async () => {
+    const storedData = sessionStorage.getItem(`gameStats-${id}`);
+    if (storedData) {
+      return JSON.parse(storedData);
+    }
+
+    try {
+      const data = await getGameStats(id);
+      sessionStorage.setItem(`gameStats-${id}`, JSON.stringify(data));
+      return data;
+    } catch (err) {
+      // If error then show message
+      let message;
+      if (err instanceof Error) message = err.message;
+      else message = String(err);
+      // we'll proceed, but let's report it
+      reportError({ message });
+      return [];
+    }
+  }, [id]);
+
   const getGameDetails = async () => {
     try {
       setIsLoading(true);
-      const data = await getGameStats(id);
+      const data = await memoizedGetGameStats;
       setGameDetails(data);
       setIsLoading(false);
     } catch (err) {
@@ -42,7 +63,7 @@ const Details = () => {
   // Get Details
   useEffect(() => {
     getGameDetails();
-  }, []);
+  }, [memoizedGetGameStats]);
 
   // Get Home team details
   const homeTeamDetails = gameDetails.find(
