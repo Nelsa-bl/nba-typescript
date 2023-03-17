@@ -15,8 +15,8 @@ const App = () => {
         <Route element={<ContentInteractiveBox />}>
           <Route index element={<Home />} />
           <Route path='game/:id' element={<Details />} />
-          <Route path='*' element={<NotFoundPage />} />
         </Route>
+        <Route path='*' element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
